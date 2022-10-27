@@ -139,10 +139,10 @@ body {
 }
 
 .btn-success {
-  background-color: var(--success-1);
+  background-color: var(--succes-1);
   color: var(--text-primary-color);
 }
 
 .btn-success:hover {
-  background-color: var(--success-2);
+  background-color: var(--succes-2);
 }

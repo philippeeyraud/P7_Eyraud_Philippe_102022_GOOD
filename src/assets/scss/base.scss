@@ -63,6 +63,9 @@ flex-direction: row;
 .align-items-center {
     align-items: center;
 }
+.align-items-start {
+    align-items: flex-start;
+}
 .flex-fill {
     flex: 1 1 auto;
 }

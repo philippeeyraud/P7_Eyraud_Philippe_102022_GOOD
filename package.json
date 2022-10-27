@@ -13,9 +13,11 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@vee-validate/zod": "^4.6.9",
-    "vee-validate": "^4.6.9",
+    "@vee-validate/zod": "^4.7.1",
+    "pinia": "^2.0.23",
+    "vee-validate": "^4.7.1",
     "vue": "^3.2.37",
+    "vue-router": "^4.1.6",
     "zod": "^3.19.1"
   },
   "devDependencies": {
