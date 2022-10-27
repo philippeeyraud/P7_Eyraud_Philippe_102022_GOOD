@@ -1,112 +1,99 @@
-<script setup lang="ts">
-import TheHeader from './components/Header.vue'
-import TheFooter from './components/Footer.vue'
-import Shop from './components/Shop/Shop.vue'
-import Cart from './components/Cart/Cart.vue'
-import data from './data/product';
-import { computed, reactive } from 'vue';
-import type { ProductCartInterface, ProductInterface } from './interfaces';
-import product from './data/product';
-//Je cree une constante et je la type pour dire quel type d'informations je vais stocker.
-//Je fais un import de data pour récupérer mon tableau de data
-//Je transferrt les informations sur les composants qui en ont besoin, ici le composant Shop va lister toute la liste de mes produits
-//Je passe une liste de produit à mon composant shop
-//const products = reactive<ProductInterface[]>(data)
-
-//Pouvoir accepter des produits et pouvooir les déclarer dans notre panier
-//On initialise avec un tableau vide
-//const cart = reactive<ProductInterface[]>([]);
-//Créer une proprieté réactive(state) pour pouvoir décrir tous les éléments dont on aura besoin
-const state = reactive<{
-products:ProductInterface[] ,
-cart:ProductCartInterface[]
-}>({
-  products: data,
-  cart: []
-})
-//Crééer la fonction qui va nous permettre d ajouter un produit dans notre panier
-//On fait en sorte que lorsque cette fonction est invoqué elle recoive l id
-//On implemente cette fonction
-//J ajoute mon produit issue de la liste des produits
-//Je dissocie  le produit qui est dans mon state , je vais créer un nv produit mais il ne faut pas qu il ait la ^m reference
-//On fait la déconstruction avec les 3.
-//On va écouter l evenement depuis notre shop
-function addProductToCart(productId: number): void{
-const product = state.products.find(product => product.id === productId);
-//if(product && !state.cart.find(product => product.id === productId)) {
- // state.cart.push({...product, quantity: 1 })
-//}
-if(product) {
-  const productInCart = state.cart.find(product => product.id === productId)
-  if (productInCart){
-    productInCart.quantity++
-  } else {
-    state.cart.push({...product, quantity: 1 })
-  }
-}
-}
-//On déclare la fonction quui va nous permettre de supprimer l element de notre panier
-//On supprime l'element de notre cart,on va s assure que tous les elements qui sont dans le panier n'ont pas l'id de celui que je supprime
-
-function removeProductFromCart(productId: number): void {
-
-const productFromCart = state.cart.find(product => product.id === productId);
-if(productFromCart) {
-  if (productFromCart.quantity === 1) {
-    state.cart = state.cart.filter(product => product.id !== productId);
-  } else {
-    productFromCart.quantity--;
-  }
-}
-}
-const cartEmpty = computed(() => state.cart.length === 0)
-</script>
-
 <template>
-  <div class="app-container" :class="{
-    gridEmpty: cartEmpty
-  }">
-    <TheHeader class="header" />
-    <Shop :products="state.products" @add-product-to-cart="addProductToCart" class="shop" />
-  <!--Si il ny a rien ds le panier je ne l'affiche pas je vais utiliser un v-if pour voir si il y a qql chose dans cart-->
-    <Cart 
-    v-if="!cartEmpty "
-      :cart="state.cart" class="cart " @remove-product-from-cart="removeProductFromCart"/>
-    <TheFooter class="footer " />
+  <div class="container">
+    <div class="p-20">
+      <h3 class="mb-10">signup</h3>
+      <form @submit="mySubmit">
+        <input
+          v-model="nameValue"
+          class="mr-10"
+          type="text"
+          placeholder="Prénom"
+        />
+        <input
+          v-model="emailValue"
+          class="mr-10"
+          type="text"
+          placeholder="Email"
+        />
+        <input
+          v-model="passwordValue"
+          class="mr-10"
+          type="password"
+          placeholder="password"
+        />
+        <button class="btn btn-primary">Sauvegarder</button>
+      </form>
+    </div>
+    <div class="p-20">
+      <h3>Liste des utilisateurs</h3>
+      <ul>
+        <li v-for="user in state.users">
+          <p>{{ nameValue }}-{{ emailValue }}</p>
+        </li>
+      </ul>
+      <p>{{ state.message }}-{{ state.name }}-{{ state.email }}</p>
+    </div>
   </div>
 </template>
 
+<script setup lang="ts">
+import { useForm, useField } from "vee-validate";
+import { reactive } from "vue";
+//Si l'utilisateur a été créer on rajoute _id
+interface User {
+  name: string;
+  email: string;
+  password: string;
+  createdAt?: string;
+  _id?: string;
+}
+//on a besoin de recuperer des users avec la mmethode reactive
+
+const state = reactive<{
+  users: User[];
+  message: string;
+  name: string;
+  email: string;
+}>({
+  users: [],
+  message: " ",
+  name: " ",
+  email: " ",
+});
+//Pour configurer le formulaire on utilise useForm.
+
+const { handleSubmit, resetForm } = useForm();
+//HandleSubmmit va nous permettre de gerer la soumission du formulaire
+//On evoque handleSubmit et on lui passe la fonction de callback qui va nous permettre d'envoyer une requete http a notre serveur
+const mySubmit = handleSubmit(async (value) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/auth/signup", {
+      method: "POST",
+      //information que l on envoi au travers de requete post
+      //L'objet js est converti au formatjson
+      body: JSON.stringify(value),
+      //On definie dans headers le type d'info que l'on envoi
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    //Si le user a bien été créé la base de donnée va nous renvoyer le non de l utilisateur
+    //Avec la methode push on rajoute le user ds la liste des utilisateurs
+    //proprieté message retournée par json
+    const result = await response.json();
+    state.message = result.message;
+    (state.name = result.name), (state.email = result.email), resetForm();
+  } catch (err) {
+    console.error(err);
+  }
+});
+//On configure les trois champs
+//trois proprietes reactive que l'on va binder avec v-model
+const { value: emailValue } = useField("email");
+const { value: passwordValue } = useField("password");
+const { value: nameValue } = useField("name");
+</script>
+
 <style lang="scss">
-@import './assets/scss/base.scss';
-@import './assets/scss/debug.scss';
-
-.app-container {
-  min-height: 100vh;
-  display: grid;
-  grid-template-areas: 'header header' 'shop cart' 'footer footer';
-  grid-template-columns: 75% 25%;
-  grid-template-rows: 48px auto 48px;
-}
-.gridEmpty {
-  grid-template-areas: 'header ' 'shop' 'footer ';
-  grid-template-columns: 100%;
-
-}
-
-
-
-.header {
-  grid-area: header;
-}
-.shop {
-  grid-area: shop;
-}
-.cart {
-  grid-area: cart;
-  border-left: var(--border);
-  background-color: white;
-}
-.footer {
-  grid-area: footer;
-}
+@import "./assets/scss/base.scss";
 </style>
