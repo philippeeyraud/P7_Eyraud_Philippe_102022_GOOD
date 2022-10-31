@@ -8,7 +8,7 @@ name: string;
 //Cela correspond à notre utilisateur sauf que tous les champs vont être optionnels
 export interface UserForm extends Partial<User> { }
 
-//iterface pour le Login
+//interface pour le Login
 
 export interface LoginForm {
     email: string;

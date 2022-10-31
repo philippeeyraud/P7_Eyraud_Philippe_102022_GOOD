@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import TheHeader from "@/components/Header.vue";
+import { useUser } from "./stores";
+
+const userStore = useUser;
 function logout() {}
 </script>
 
 <template>
   <div class="d-flex flex-column app-container">
     <TheHeader
-      :isAuthenticated="false"
+      :isAuthenticated="userStore.isAuthenticated"
       @logout="logout"
     />
     <router-view class="flex-fill"></router-view>

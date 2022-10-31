@@ -23,3 +23,7 @@ export const router = createRouter({
     }
   ]
 })
+//On va utiliser un garde qui va se déclencher avant toutes les navigations
+router.beforeEach(() => {
+
+})

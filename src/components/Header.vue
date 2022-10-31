@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 defineProps<{
-  isLoggedin: boolean | null;
+  isAuthenticated: boolean | null;
 }>();
 const emit = defineEmits<{
   (e: "logout"): void;
@@ -17,13 +17,13 @@ const emit = defineEmits<{
 
     <ul class="d-flex flex-row align-items-center">
       <!--Si l utilisateur est connecté on affiche mon profil et deconnexion, si il n'est pas connecté on affiche connexion et inscription-->
-      <template v-if="isLoggedin">
+      <template v-if="isAuthenticated">
         <li clas="'mr-20">
           <router-link to="/profil">Mon profil</router-link>
         </li>
         <li @click="emit('logout')">Deconnexion</li>
       </template>
-      <template v-else>
+      <template v-else - if="isAuthenticated === false">
         <li class="mr-20">
           <router-link to="/connexion">Connexion</router-link>
         </li>
