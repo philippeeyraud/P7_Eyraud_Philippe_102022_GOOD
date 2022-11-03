@@ -1,101 +1,62 @@
 <script setup lang="ts">
-import type { LoginForm } from './../shared/interfaces';
-import { defineStore } from "pinia";
-import { useForm, useField } from "vee-validate";
-import { reactive } from "vue";
+import { z } from 'zod';
+import { toFormValidator } from '@vee-validate/zod';
+import { useField, useForm } from 'vee-validate';
+import { useRouter } from 'vue-router';
+import { useUser } from '@/stores';
+import type { LoginForm } from '@/shared/interfaces/user.interface';
 
+const router = useRouter();
+const userStore = useUser();
 
-//Si l'utilisateur a été créer on rajoute _id
-interface User {
-  name: string;
-  email: string;
-  password: string;
-  createdAt?: string;
-  _id?: string;
-}
-//on a besoin de recuperer des users avec la mmethode reactive
+const validationSchema = toFormValidator(z.object({
+    email: z.string({ required_error: 'Vous devez renseigner ce champ' }).email('Format email incorrect'),
+    password: z.string({ required_error: 'Vous devez renseigner ce champ' }).min(5, 'Le mot de passe doit faire au moins 5 caractères'),
+}));
 
-const state = reactive<{
-  users: User[];
-  message: string;
-  email: string;
-}>({
-  users: [],
-  message: " ",
-  email: " ",
-});
-//Pour configurer le formulaire on utilise useForm.
-
-const { handleSubmit, resetForm } = useForm();
-//HandleSubmmit va nous permettre de gerer la soumission du formulaire
-//On evoque handleSubmit et on lui passe la fonction de callback qui va nous permettre d'envoyer une requete http a notre serveur
-const mySubmit = handleSubmit(async (value) => {
-  try {
-    const response = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      //information que l on envoi au travers de requete post
-      //L'objet js est converti au formatjson
-      body: JSON.stringify(value),
-      //On definie dans headers le type d'info que l'on envoi
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
-    state.message = result.message;
-    resetForm();
-  } catch (err) {
-    console.error(err);
-  }
-
+const { handleSubmit, setErrors } = useForm<{ email: string, password: string }>({
+    validationSchema,
 });
 
+const submit = handleSubmit(async (formValue:LoginForm) => {
+    try {
+        await userStore.login(formValue);
+        router.push('/profil');
+    } catch (e) {
+        setErrors({ password: e as string })
+    }
+});
 
-
-//proprietes reactive que l'on va binder avec v-model
-const { value: emailValue } = useField("email");
-const { value: passwordValue } = useField("password");
-
+const { value: emailValue, errorMessage: emailError } = useField('email');
+const { value: passwordValue, errorMessage: passwordError } = useField('password');
 </script>
+
 <template>
-  <div class="container d-flex flex-row p-20 justify-content-center align-items-start">
-    <form
-      @submit="mySubmit"
-      class="card"
-    >
-      <h2 class="mb-20">Connexion</h2>
-      <div class="d-flex flex-column mb-10">
-        <label
-          for="email"
-          class="mb-5"
-        >Email*</label>
-          <input
-            v-model="emailValue"
-            id="email"
-            type="text"
-          />
-      </div>
-      <div class="d-flex flex-column mb-10">
-        <label
-          for="password"
-          class="mb-5"
-        >Mot de passe</label>
-          <input
-            v-model="passwordValue"
-            id="password"
-            type="password"
-          />
-      </div>
-      <div>
-        <button class="btn btn-primary">Connexion</button>
-      </div>
-      </form>
-  </div>
+    <div class="container d-flex flex-row p-20 justify-content-center align-items-start">
+        <form @submit="submit" class="card">
+            <h2 class="mb-20">Connexion</h2>
+            <div class="d-flex flex-column mb-10">
+                <label for="email" class="mb-5">Email*</label>
+                <input v-model="emailValue" id="email" type="text">
+                <p v-if="emailError" class="form-error">{{ emailError }} </p>
+            </div>
+            <div class="d-flex flex-column mb-10">
+                <label for="password" class="mb-5">Mot de passe</label>
+                <input v-model="passwordValue" id="password" type="password">
+                <p v-if="passwordError" class="form-error">{{ passwordError }}</p>
+            </div>
+            <div>
+                <button class="btn btn-primary">Connexion</button>
+            </div>
+        </form>
+    </div>
 </template>
-<style scoped lang="scss">
+
+
+<style scoped lang="scss" >
 .card {
-  width: 100%;
-  width: 500px;
-  padding: 20px;
+    width: 100%;
+    width: 500px;
+    padding: 20px;
 }
 </style>

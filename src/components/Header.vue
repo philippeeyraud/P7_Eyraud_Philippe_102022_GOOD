@@ -19,7 +19,7 @@ const emit = defineEmits<{
       <!--Si l utilisateur est connecté on affiche mon profil et deconnexion, si il n'est pas connecté on affiche connexion et inscription-->
       <template v-if="isAuthenticated">
         <li clas="'mr-20">
-          <router-link to="/profil">Mon profil</router-link>
+          <router-link to="/profil" class="mr-20">Mon profil</router-link>
         </li>
         <li @click="emit('logout')">Deconnexion</li>
       </template>

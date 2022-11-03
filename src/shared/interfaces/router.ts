@@ -1,4 +1,5 @@
 
+import { useUser } from '@/stores/userStore';
 import { createRouter, createWebHistory } from 'vue-router';
 export const router = createRouter({
   history: createWebHistory(),
@@ -20,10 +21,19 @@ export const router = createRouter({
       path: '/profil',
       component: () => import('@/views.js/Profile.vue')
 
-    }
+      },
+      {
+        path: '/:notfound(.*)*',
+        component: () => import('@/views.js/Notfound.vue')
+      }
+    
   ]
 })
 //On va utiliser un garde qui va se déclencher avant toutes les navigations
 router.beforeEach(() => {
-
-})
+  const userStore = useUser();
+  /*//Si le userStore n'est pas chargé on va essayer de le récupérer
+  if (!userStore.loaded) {
+    userStore.fetchCurrentUser();
+  }*/
+});

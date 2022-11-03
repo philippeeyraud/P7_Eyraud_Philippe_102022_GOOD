@@ -4,10 +4,7 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import { router } from './shared/interfaces/router';
 
-//const router = createRouter({
-  //history: createWebHistory(),
-  //routes: routes,
-//});
+
 
 const app = createApp(App);
 

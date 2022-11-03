@@ -1,7 +1,20 @@
 <template>
-  <h1>Notfound</h1>
+  <div class="d-flex flex-row align-items-center justify-content-center">
+    <div class="card">
+  <h1>Mon profil</h1>
+    </div>
+  </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
 
-<style lang="scss" scoped></style>
+
+</script>
+
+<style lang="scss" scoped>
+.card { 
+width: 100%;
+max-width: 300px;
+
+}
+</style>
