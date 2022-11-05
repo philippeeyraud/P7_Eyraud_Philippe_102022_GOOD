@@ -8,7 +8,7 @@ const userStore = useUser();
 const router = useRouter();
 
 async function logout() {
-    await userStore.logout();
+    await userStore. logout();
     router.push('/connexion');
 }
 </script>

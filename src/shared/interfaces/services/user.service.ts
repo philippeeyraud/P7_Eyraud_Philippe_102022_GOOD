@@ -21,3 +21,6 @@ export async function createUser(userForm: UserForm) {
         throw e;
     }
 }
+export async function fetchCurrentUser(): Promise<User | null> {
+    return await (await fetch('${BASE_URL_S}/current')).json()
+}
