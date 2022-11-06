@@ -1,20 +1,20 @@
-<template>
-  <div class="d-flex flex-row align-items-center justify-content-center">
-    <div class="card">
-  <h1>Mon profil</h1>
-    </div>
-  </div>
-</template>
-
-<script lang="ts" setup>
-
-
+<script setup lang="ts">
+import { useUser } from '@/stores/userStore';
+const userStore = useUser()
 </script>
 
-<style lang="scss" scoped>
-.card { 
-width: 100%;
-max-width: 300px;
+<template>
+    <div class="d-flex flex-row align-items-center justify-content-center">
+        <div class="card">
+            <pre>{{ userStore.currentUser }}</pre>
+        </div>
+    </div>
+</template>
 
+
+<style scoped lang="scss" >
+.card {
+    width: 100%;
+    max-width: 300px;
 }
 </style>

@@ -3,7 +3,7 @@ import TheHeader from '@/components/Header.vue';
 import { useRouter } from 'vue-router';
 import { useUser } from './stores/userStore';
 
-
+//on récupère notre userStore
 const userStore = useUser();
 const router = useRouter();
 

@@ -7,7 +7,7 @@ interface UserState {
   loaded: boolean;
 }
 //Si le User est null et que loaded passe à true l utilisateur est déconnecté
-//si loaded passe a false c'est qu'on est entrain de vérifier
+//si loaded passe a false c'est qu'on est entrain de vérifier si il est connecté
 export const useUser = defineStore("user", {
   state: (): UserState => ({
     currentUser: null,
@@ -43,7 +43,7 @@ export const useUser = defineStore("user", {
     //Action qui va nous permettre de récupérer l utilsateur si il est connecté
     async fetchcurrentUser() {
       this.currentUser = await fetchCurrentUser();
-      //on a déja essayé de récupérer le User utilisateur
+      //Loaded =  avons nous  déja essayé de récupérer l utilisateur connecté
       this.loaded = true;
     },
   },

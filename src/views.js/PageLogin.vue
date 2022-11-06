@@ -19,11 +19,11 @@ const validationSchema = toFormValidator(
       .min(5, "Le mot de passe doit faire au moins 5 caractères"),
   })
 );
-
+//handle submit est une fonction qui va retourner une fonction, une fonction qui va prendre une fonction de call back et qui va l'invoquer
 const { handleSubmit, setErrors } = useForm<{ email: string; password: string }>({
   validationSchema,
 });
-
+//On déclare une variable et on invoque handleSubmit , on va configurer la foncton de callback que l'on execute à partir du moment que le formulaire a été soumis
 const submit = handleSubmit(async (formValue: LoginForm) => {
   try {
     await userStore.login(formValue);
@@ -39,6 +39,7 @@ const { value: passwordValue, errorMessage: passwordError } = useField("password
 
 <template>
   <div class="container d-flex flex-row p-20 justify-content-center align-items-start">
+    <!--On recupe le submit et on le declanche a partir du moment que l on execute le formulaire-->
     <form @submit="submit" class="card">
       <h2 class="mb-20">Connexion</h2>
       <div class="d-flex flex-column mb-10">

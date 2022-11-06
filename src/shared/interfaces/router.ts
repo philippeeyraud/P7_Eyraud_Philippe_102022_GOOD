@@ -32,8 +32,8 @@ export const router = createRouter({
 //On va utiliser un garde qui va se déclencher avant toutes les navigations
 router.beforeEach(() => {
   const userStore = useUser();
-  /*//Si le userStore n'est pas chargé on va essayer de le récupérer
+  // Si le userStore n'est pas chargé on va essayer de le charger
   if (!userStore.loaded) {
-    userStore.fetchCurrentUser();
-  }*/
+    userStore.fetchcurrentUser();
+  }
 });
