@@ -1,11 +1,13 @@
+
 //nous créons le fichier auth.service.ts pour les requêtes relatives à l'authentification :
-import type { LoginForm, User } from "../user.interface";
+import type { LoginForm, User,} from "../user.interface";
 
 
-const BASE_URL_L = "http://localhost:3000/api/auth/login";
+
 
 export async function login(loginForm: LoginForm): Promise<User> {
-    const response = await fetch(BASE_URL_L, {
+   
+    const response = await fetch('http://localhost:3000/api/auth/login', {
         method: "POST",
         body: JSON.stringify(loginForm),
         headers: {
@@ -19,3 +21,16 @@ export async function login(loginForm: LoginForm): Promise<User> {
       
     }
 }
+ 
+     
+
+export async function logout(): Promise<void> {  
+       const logout = () => {
+       localStorage.removeItem('token')}  
+   
+const response =   await fetch('http://localhost:3000/api/auth/current', {
+     method: 'DELETE',
+    });
+   
+}
+

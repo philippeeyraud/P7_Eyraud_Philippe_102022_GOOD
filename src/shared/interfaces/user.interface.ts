@@ -1,4 +1,5 @@
 export interface User {
+token(token: any): unknown;
 name: string;
   email: string;
   password: string;
@@ -6,7 +7,7 @@ name: string;
   _id?: string;
 }
 //Cela correspond à notre utilisateur sauf que tous les champs vont être optionnels
-export interface UserForm extends Partial<User> { }
+
 
 //interface pour le Login
 

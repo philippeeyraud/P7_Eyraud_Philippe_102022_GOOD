@@ -23,7 +23,7 @@ const validationSchema = toFormValidator(
 const { handleSubmit, setErrors } = useForm<{ email: string; password: string }>({
   validationSchema,
 });
-//On déclare une variable et on invoque handleSubmit , on va configurer la foncton de callback que l'on execute à partir du moment que le formulaire a été soumis
+//On déclare une variable et on invoque handleSubmit , on va configurer la fonction de callback que l'on execute à partir du moment que le formulaire a été soumis
 const submit = handleSubmit(async (formValue: LoginForm) => {
   try {
     await userStore.login(formValue);
