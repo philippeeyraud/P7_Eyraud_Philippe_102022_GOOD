@@ -4,16 +4,14 @@ import { toFormValidator } from "@vee-validate/zod";
 import { useField, useForm } from "vee-validate";
 import { useRouter } from "vue-router";
 import { z } from "zod";
-import { useMessage } from "@/stores";
 import { createMessage } from "../shared/interfaces/services/message.service";
 
 const router = useRouter();
-const messageStore = useMessage();
+
 const validationSchema = toFormValidator(
   z.object({
-    description: z
-      .string({ required_error: "Vous devez renseigner ce champ" })
-      .description(" "),
+    description: z.string({ required_error: "Vous devez renseigner ce champ" })
+     
   })
 );
 const { handleSubmit, setErrors } = useForm<{ description: string }>({

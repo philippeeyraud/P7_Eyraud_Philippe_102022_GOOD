@@ -1,10 +1,9 @@
 
-import type { Message } from "@/shared/interfaces/message.interface";
-import type { MessageForm } from "@/shared/interfaces/message.interface";
-import { defineStore } from "pinia";
-import { promise, string } from "zod";
-import { fetchActualMessages,  } from "../shared/interfaces/services/message.service";
 
+import type { MessageForm , Message} from "@/shared/interfaces/message.interface";
+import { defineStore } from "pinia";
+
+import { fetchActualMessage,  } from "../shared/interfaces/services/message.service";
 
 export interface MessageState {
     actualMessage: Message | null;
@@ -29,20 +28,19 @@ export const useMessage = defineStore('Message', {
         },
     },
     actions: {
-        async message(messageForm: MessageForm) {
+    async message(messageForm: MessageForm) {
          try {
-                this.actualMessage = await promise (messageForm)
-                const back = await promise (messageForm);
-                console.log(back.token);
-                localStorage.setItem("message", JSON.stringify(back));
+           //  this.actualMessage = await this.message(messageForm);
+               
+               
             } catch (e) {
                 throw e;
             }
 
         },
 
-        async fetchActualMessages() {
-            this.actualMessage = await fetchActualMessages();
+        async fetchActualMessage() {   
+            this.actualMessage = await fetchActualMessage();
             //Loaded =  avons nous  déja essayé de récupérer l utilisateur connecté
             this.loaded = true;
         },

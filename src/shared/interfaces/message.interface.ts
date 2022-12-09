@@ -1,4 +1,4 @@
-import type { Message } from './message.interface';
+//import type { Message } from './message.interface';
 
 
 /*export interface Message{
@@ -13,7 +13,7 @@ import type { Message } from './message.interface';
     message_id: { type: Number, unique: true, required: true }
 }*/
 export interface Message {
-
+  description: string;
   createdAt?: string;
   _id?: string;
 }
