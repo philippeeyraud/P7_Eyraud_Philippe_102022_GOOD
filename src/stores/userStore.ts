@@ -52,7 +52,8 @@ export const useUser = defineStore("user", {
     },
 
     async logout() {
-      await logout();
+     
+      await logout()
       this.currentUser = null;
 
     },

@@ -22,7 +22,7 @@ const emit = defineEmits<{
         <li class="mr-20">
           <router-link to="/addmessage">AddMessages</router-link>
         </li>
-        <li class="mr-20">
+       <li class="mr-20">
           <router-link to="/allmessages">AllMessages</router-link>
         </li>
 

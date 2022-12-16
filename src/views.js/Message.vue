@@ -20,7 +20,7 @@ const { handleSubmit, setErrors } = useForm<{ description: string }>({
 const submit = handleSubmit(async (formValue: MessageForm) => {
   try {
     await createMessage(formValue);
-    router.push("/allmessages");
+    //router.push("/allmessages");
   } catch (e) {
     console.log(e);
   }

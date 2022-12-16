@@ -28,9 +28,9 @@ export const useMessage = defineStore('Message', {
         },
     },
     actions: {
-    async message(messageForm: MessageForm) {
+    async message(_messageForm: MessageForm) {
          try {
-           //  this.actualMessage = await this.message(messageForm);
+            this.actualMessage = await this.message(_messageForm);
                
                
             } catch (e) {

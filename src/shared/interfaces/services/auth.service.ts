@@ -25,11 +25,11 @@ export async function login(loginForm: LoginForm): Promise<User> {
      
 
 export async function logout(): Promise<void> {  
-       const logout = () => {
+       const logout =() => {
        localStorage.removeItem('token')}  
    
 const response =   await fetch('http://localhost:3000/api/auth/current', {
-     method: 'DELETE',
+     method:'DELETE',
     });
    
 }
