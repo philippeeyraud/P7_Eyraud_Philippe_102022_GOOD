@@ -52,7 +52,7 @@ export const useUser = defineStore("user", {
     },
 
     async logout() {
-     
+     localStorage.removeItem('token')
       await logout()
       this.currentUser = null;
 
