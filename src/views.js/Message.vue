@@ -10,8 +10,7 @@ const router = useRouter();
 
 const validationSchema = toFormValidator(
   z.object({
-    description: z.string({ required_error: "Vous devez renseigner ce champ" })
-     
+    description: z.string({ required_error: "Vous devez renseigner ce champ" }),
   })
 );
 const { handleSubmit, setErrors } = useForm<{ description: string }>({
@@ -20,18 +19,19 @@ const { handleSubmit, setErrors } = useForm<{ description: string }>({
 const submit = handleSubmit(async (formValue: MessageForm) => {
   try {
     await createMessage(formValue);
-    //router.push("/allmessages");
+    router.push("/posts");
   } catch (e) {
     console.log(e);
   }
 });
-const { value: descriptionValue, errorMessage: descriptionError } = useField(
-  "description"
-);
+const { value: descriptionValue, errorMessage: descriptionError } =
+  useField("description");
 </script>
 
 <template>
-  <div class="container d-flex flex-row p-20 justify-content-center align-items-start">
+  <div
+    class="container d-flex flex-row p-20 justify-content-center align-items-start"
+  >
     <form @submit="submit" class="card">
       <h1>ListMessages</h1>
       <div class="d-flex flex-column mb-10">

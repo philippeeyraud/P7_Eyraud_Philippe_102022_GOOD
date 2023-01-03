@@ -27,6 +27,6 @@ async function logout() {
 <style lang="scss">
 @import "./assets/scss/base.scss";
 .app-container {
-  min-height: 100vh;
+  height: 100vh;
 }
 </style>

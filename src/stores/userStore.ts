@@ -4,6 +4,7 @@ import type { LoginForm, User } from "@/shared/interfaces/user.interface";
 import { defineStore } from "pinia";
 import { string } from "zod";
 import { fetchCurrentUser,  } from "../shared/interfaces/services/user.service";
+import { router } from '@/router';
 
 
 interface UserState {
@@ -52,10 +53,11 @@ export const useUser = defineStore("user", {
     },
 
     async logout() {
-     localStorage.removeItem('token')
+      localStorage.removeItem('token')
+ 
       await logout()
       this.currentUser = null;
-
+      router.push("/profil");
     },
 
 

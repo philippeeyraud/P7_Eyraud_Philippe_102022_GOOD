@@ -9,6 +9,7 @@ export const router = createRouter({
         path: '/',
         component: () => import('@/views.js/Home.vue')
       },
+     
       {
         path: '/connexion',
         component: () => import('@/views.js/PageLogin.vue')
@@ -27,13 +28,14 @@ export const router = createRouter({
         component: () => import('@/views.js/Test.vue')
       },
       {
-         path: '/addmessage',
+         path: '/message',
         component: () => import('@/views.js/Message.vue')
       },
       {
-       path: '/allmessages',
-        component: () => import('@/views.js/Message.vue')
+        path: '/posts',
+        component: () => import('@/views.js/Posts.vue')
       },
+ 
   
       {
         path: '/:notfound(.*)*',
