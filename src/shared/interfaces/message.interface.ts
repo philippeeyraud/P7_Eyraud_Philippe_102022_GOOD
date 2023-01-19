@@ -13,8 +13,19 @@
     message_id: { type: Number, unique: true, required: true }
 }*/
 export interface Message {
+title: any;
+_id: string | number | symbol | undefined;
+
   description: string;
   createdAt?: string;
+  imageUrl:  String;
+  
+
+  
+  
+ 
+  
+ 
  
  
 }
@@ -22,6 +33,8 @@ export interface Message {
 
 export interface MessageForm {
   description: string;
+  imageUrl:  String;
+
   
 
   

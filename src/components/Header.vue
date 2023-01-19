@@ -16,18 +16,15 @@ const emit = defineEmits<{
     </div>
     <ul class="d-flex flex-row align-items-center">
       <template v-if="isAuthenticated">
-        <li class="mr-20">
-          <router-link to="/posts">Posts</router-link>
-        </li>
+      
         <li class="mr-20">
           <router-link to="/profil">Mon profil</router-link>
         </li>
         <li class="mr-20">
-          <router-link to="/message">AddMessages</router-link>
+          <router-link to="/message">Messages</router-link>
         </li>
-     
-     
-
+      
+      
         <li @click="emit('logout')">Logout</li>
       </template>
       <template v-else-if="isAuthenticated === false">

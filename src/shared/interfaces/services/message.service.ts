@@ -1,11 +1,13 @@
-import type { Message } from './../message.interface';
-import type { User, UserForm } from "../user.interface";
+
+
+import { ref, type Ref } from "vue";
+import { boolean } from "zod";
 import type { MessageForm, Message } from "../message.interface";
 
 export async function createMessage(messageForm: MessageForm) {
     try {
-        const test = JSON.parse(localStorage.getItem("user"));
-        const token = test.token;
+        const mes = JSON.parse(localStorage.getItem("user"));
+        const token = mes.token;
         const response = await fetch('http://localhost:3000/api/messages', {
             method: 'POST',
             body: JSON.stringify(messageForm),
@@ -27,18 +29,56 @@ export async function createMessage(messageForm: MessageForm) {
 
 
 //nous créons la fonction pour faire une requête message à notre serveur
-export async function fetchActualMessage(): Promise<Message | null> {
+/*export async function fetchMessages(): Promise<Message | null> {
    
 
-    return await (await fetch('http://localhost:3000/api/messages/actual', {
+    return  (await fetch('http://localhost:3000/api/messages', {
 
         method: 'GET',
-        
+       
         headers: {
             'Content-Type': 'application/json',
-      
-        }
+         }
+})).json()
 
-    })).json()
+
+}*/
+
+
+
+
+
+export function useFetchMessages(): { messages: Ref<Message []| null>, loading: Ref<boolean>,error: Ref<any>}
+{const messages = ref<Message[ ]| null>(null)
+const loading = ref<boolean>(true);
+const error = ref<any>(null);
+
+(async ()=>{
+
+    try {
+        const mes = JSON.parse(localStorage.getItem("user"));
+        const token = mes.token;
+        messages.value = await (await fetch ('http://localhost:3000/api/messages',{
+
+    method: 'GET',
    
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization':"BEARER "+token,
+     }
+}) ).json()}
+    catch(e){
+        error.value = e;
+
+    }finally {
+        loading.value = false;
+    }
+})();
+return{
+messages,
+loading,
+error
+
+}
+
 }

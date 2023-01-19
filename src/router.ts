@@ -28,13 +28,21 @@ export const router = createRouter({
         component: () => import('@/views.js/Test.vue')
       },
       {
-         path: '/message',
-        component: () => import('@/views.js/Message.vue')
-      },
+        
+     path: '/message',
+     component: () => import('@/views.js/Message.vue')
+   },
+
+      
       {
-        path: '/posts',
-        component: () => import('@/views.js/Posts.vue')
-      },
+       
+        path: '/messagesList',
+        component: () => import('@/views.js/MessagesList.vue')
+      }, 
+      {
+      path: '/addMessages',
+      component: () => import('@/views.js/AddMesssages.vue')
+    },
  
   
       {
